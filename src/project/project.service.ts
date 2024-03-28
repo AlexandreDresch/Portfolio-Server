@@ -1,15 +1,26 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
+import { ProjectRepository } from './repository/project.repository';
 
 @Injectable()
 export class ProjectService {
-  create(createProjectDto: CreateProjectDto) {
-    return 'This action adds a new project';
+  constructor(private readonly projectRepository: ProjectRepository) {}
+  async create(data: CreateProjectDto) {
+    const project = await this.projectRepository.findByName(data.name);
+
+    if (project) {
+      throw new HttpException(
+        'Project already exists.',
+        HttpStatus.UNPROCESSABLE_ENTITY,
+      );
+    }
+
+    await this.projectRepository.create(data);
   }
 
-  findAll() {
-    return `This action returns all project`;
+  async findAll() {
+    return await this.projectRepository.findAll();
   }
 
   findOne(id: number) {
