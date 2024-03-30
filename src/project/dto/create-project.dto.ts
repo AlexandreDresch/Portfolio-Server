@@ -5,6 +5,7 @@ import {
   IsString,
   IsArray,
   ArrayMinSize,
+  IsOptional,
 } from 'class-validator';
 
 export class CreateProjectDto {
@@ -24,6 +25,7 @@ export class CreateProjectDto {
   @ArrayMinSize(1)
   images: string[];
 
+  @IsOptional()
   deployment_url?: string;
 
   @IsString()
