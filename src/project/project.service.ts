@@ -23,15 +23,15 @@ export class ProjectService {
     return await this.projectRepository.findAll();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} project`;
+  async findOne(name: string) {
+    return await this.projectRepository.findByName(name);
   }
 
-  update(id: number, updateProjectDto: UpdateProjectDto) {
-    return `This action updates a #${id} project`;
+  async update(id: number, updateProjectDto: UpdateProjectDto) {
+    return await this.projectRepository.update(id, updateProjectDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} project`;
+  async remove(id: number) {
+    await this.projectRepository.remove(id);
   }
 }
