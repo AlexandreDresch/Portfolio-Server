@@ -5,6 +5,12 @@ import { PrismaClientExceptionFilter } from 'nestjs-prisma';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.enableCors({
+    origin: process.env.ORIGIN_URL,
+    allowedHeaders: ['content-type', 'application/json'],
+    credentials: true,
+    methods: ['GET'],
+  });
   const { httpAdapter } = app.get(HttpAdapterHost);
   app.useGlobalFilters(new PrismaClientExceptionFilter(httpAdapter));
   app.useGlobalPipes(new ValidationPipe());
